@@ -23,8 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google AdSense Placeholder - Replace YOUR_CLIENT_ID later */}
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_CLIENT_ID" crossOrigin="anonymous"></script>
+        {/* Google AdSense - Automation Active */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6778322524120767" crossOrigin="anonymous"></script>
       </head>
       <body className={fredoka.className}>{children}</body>
     </html>

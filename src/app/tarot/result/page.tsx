@@ -117,7 +117,7 @@ function ResultContent() {
                 <p className="whitespace-pre-line text-lg leading-relaxed">{fortune || "✨ Consulting the stars..."}</p>
             </motion.div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 mb-8">
                 <Link href="/tarot">
                     <button className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 rounded-full font-bold transition-colors">
                         <RefreshCw size={20} /> Again
@@ -128,9 +128,22 @@ function ResultContent() {
                 </button>
             </div>
 
-            {/* Ad Placeholder */}
-            <div className="mt-12 w-full max-w-sm h-32 bg-gray-100/50 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 text-gray-400 text-sm">
-                [Ad Space: Google AdSense]
+            {/* Donation Area (Immediate Cash Flow) */}
+            <a href="https://www.buymeacoffee.com" target="_blank" rel="noreferrer" className="mb-8 group">
+                <div className="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-6 py-3 rounded-xl border border-yellow-300 flex items-center gap-3 transition-colors cursor-pointer">
+                    <span className="text-2xl group-hover:scale-125 transition-transform">🐟</span>
+                    <div>
+                        <p className="font-bold text-sm">Give Master Meow a Fish!</p>
+                        <p className="text-xs opacity-75">Support the developer</p>
+                    </div>
+                </div>
+            </a>
+
+            {/* Ad Space (Google AdSense) */}
+            <div className="w-full max-w-sm min-h-[100px] bg-gray-50 border border-gray-200 rounded-lg flex flex-col items-center justify-center text-gray-400 text-xs gap-2 p-4">
+                <p>[ Google AdSense Area ]</p>
+                <p>Advertisement will appear here after approval.</p>
+                {/* Once you get the ID, paste the <ins> code here */}
             </div>
         </div>
     );

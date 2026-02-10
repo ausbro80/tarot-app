@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Agent - Video Preview</title>
+    <style>
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+        }
+
+        .phone-frame {
+            width: 360px;
+            height: 640px;
+            background: black;
+            border-radius: 30px;
+            border: 10px solid #444;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            /* Cat Background */
+            background-image: url('https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            pointer-events: none;
+        }
+
+        .ui-safe-area {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 80px;
+            /* Space for buttons */
+            z-index: 10;
+        }
+
+        .username {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #fff;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .desc {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #eee;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .music-ticker {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        /* Right Side Buttons */
+        .action-buttons {
+            position: absolute;
+            right: 10px;
+            bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .btn-circle {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Captions */
+        .caption-box {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            text-align: center;
+            z-index: 20;
+        }
+
+        .subtitle {
+            font-size: 26px;
+            /* Smaller font */
+            font-weight: 900;
+            color: #FFD700;
+            /* Gold */
+            text-shadow:
+                2px 2px 0 #000,
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 15px;
+            opacity: 0;
+            transition: all 0.2s ease;
+            transform: scale(0.8);
+            display: inline-block;
+            white-space: normal;
+            /* Wrap text */
+            max-width: 90%;
+            /* Prevent overflow */
+            line-height: 1.4;
+        }
+
+        .subtitle.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Play Button */
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            cursor: pointer;
+        }
+
+        .play-icon {
+            font-size: 60px;
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="phone-frame">
+        <div class="overlay-gradient"></div>
+
+        <!-- Captions -->
+        <div class="caption-box">
+            <div id="captionText" class="subtitle"></div>
+        </div>
+
+        <!-- Right Side Buttons -->
+        <div class="action-buttons">
+            <div class="btn-circle">❤️</div>
+            <div class="btn-circle">💬</div>
+            <div class="btn-circle">🚀</div>
+        </div>
+
+        <!-- Bottom Info -->
+        <div class="ui-safe-area">
+            <div class="username">@Magic_Fortune_Cat</div>
+            <div class="desc">The Fool Card appeared today! Are you ready? #Tarot #Cat</div>
+            <div class="music-ticker">🎵 Original Sound - Master Meow</div>
+        </div>
+
+        <!-- Play Button -->
+        <div class="play-overlay" onclick="playVideo()" id="playBtn">
+            <div class="play-icon">▶</div>
+        </div>
+
+        <!-- Record Button (New) -->
+        <button onclick="recordVideo()"
+            style="position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); padding: 10px 20px; background: #ff0050; color: white; border: none; border-radius: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(255,0,80,0.4);">
+            🎥 Download Video (Record)
+        </button>
+    </div>
+
+    <script>
+        const catImage = "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&q=80"; // Cat
+        const cardImage = "https://upload.wikimedia.org/wikipedia/commons/9/90/RWS_Tarot_00_Fool.jpg"; // The Fool Card
+
+        const scripts = [
+            { text: "🛑 STOP SCROLLING!", duration: 1500, img: catImage, fit: "cover" },
+            { text: "Master Meow Speaks! 🐱", duration: 2000, img: catImage, fit: "cover" },
+            { text: "Today's Card is...", duration: 1500, img: catImage, fit: "cover" },
+            { text: "✨ THE FOOL ✨", duration: 2000, color: "#FFD700", img: cardImage, fit: "contain", bg: "#222" },
+            { text: "A New Adventure Begins!", duration: 2000, img: cardImage, fit: "contain", bg: "#222" },
+            { text: "Don't be afraid to jump!", duration: 2000, img: cardImage, fit: "contain", bg: "#222" },
+            { text: "Check Link in Bio! 👇", duration: 3000, img: catImage, fit: "cover" }
+        ];
+
+        const captionEl = document.getElementById('captionText');
+        const playBtn = document.getElementById('playBtn');
+        const phoneScreen = document.querySelector('.phone-frame');
+
+        // Recording Variables
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        async function recordVideo() {
+            try {
+                // 1. Ask user to select screen (Current Tab)
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { displaySurface: "browser" },
+                    audio: false
+                });
+
+                // 2. Start Recording
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                recordedChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) recordedChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'master_meow_video.webm';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+
+                    // Stop all tracks
+                    stream.getTracks().forEach(track => track.stop());
+                    alert("✅ Video Downloaded! You can upload this to TikTok now.");
+                };
+
+                mediaRecorder.start();
+
+                // 3. Play Video
+                playVideo(true); // IsRecording = true
+
+            } catch (err) {
+                console.error("Error: " + err);
+                alert("Recording cancelled or failed. Please try again.");
+            }
+        }
+
+        function playVideo(isRecording = false) {
+            playBtn.style.display = 'none';
+            let totalTime = 0;
+
+            scripts.forEach((step, index) => {
+                setTimeout(() => {
+                    // Change Text
+                    captionEl.innerText = step.text;
+                    captionEl.style.color = step.color || "white";
+                    captionEl.classList.add('active');
+
+                    // Change Image (Cut)
+                    phoneScreen.style.backgroundImage = `url('${step.img}')`;
+                    phoneScreen.style.backgroundColor = step.bg || "black";
+
+                    // Fit Mode
+                    phoneScreen.style.backgroundRepeat = "no-repeat";
+                    phoneScreen.style.backgroundPosition = "center";
+
+                    if (step.fit === "contain") {
+                        phoneScreen.style.backgroundSize = "85%";
+                        phoneScreen.style.backgroundPosition = "center 45%";
+                    } else {
+                        phoneScreen.style.backgroundSize = "cover";
+                    }
+
+                    // Shake effect
+                    if (step.text.includes("STOP")) {
+                        captionEl.style.transform = "scale(1.1) rotate(-5deg)";
+                    } else {
+                        captionEl.style.transform = "scale(1)";
+                    }
+
+                }, totalTime);
+
+                // Hide text
+                setTimeout(() => {
+                    captionEl.classList.remove('active');
+                }, totalTime + step.duration - 200);
+
+                totalTime += step.duration;
+            });
+
+            // Reset after done
+            setTimeout(() => {
+                if (isRecording && mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop(); // Stop recording automatically
+                }
+                playBtn.style.display = 'flex';
+                playBtn.querySelector('.play-icon').innerText = '↺';
+                phoneScreen.style.backgroundImage = `url('${catImage}')`;
+                phoneScreen.style.backgroundSize = "cover";
+            }, totalTime + 1000); // Add 1s buffer
+        }
+    </script>
+</body>
+
+</html>
